@@ -1,0 +1,101 @@
+
+@(user:List[Accounts], request: play.api.mvc.RequestHeader)(implicit flash: Flash)
+
+@main("Play App") {
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+@if(request.session.get("currentUser").getOrElse("").length() > 0){
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li><a href="@routes.LoginController.logout()"><i class="fa fa-power-off" aria-hidden="true"></i><span style="margin-left:10px;font-size:15px;">Logout</span></a></li>
+        </ul>
+    </div>
+</nav>
+<div class="row">
+    <div class="col-md-4" >
+
+        <div class="col-md-8 says" > @flash.get("msg").getOrElse("Welcome!")</div>
+        <div class="col-md-4" ></div>
+
+    </div>
+
+    <div class="col-md-4" >
+
+        <img src="@routes.Assets.versioned("images/img.png")" class="img-responsive profiledp img-circle" alt="playAvatar" >
+
+    </div>
+    <div class="col-md-4" ></div>
+
+
+</div>
+
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-3" ></div>
+    <div class="col-md-6 info underline" >@user(0).fname @user(0).mname @user(0).lname </div>
+    <div class="col-md-3" ></div>
+</div>
+
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-4" ></div>
+    <div class="col-md-4 restInfo" >@user(0).uname</div>
+    <div class="col-md-4" ></div>
+</div>
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-4" ></div>
+    <div class="col-md-4 restInfo" >@user(0).mobile</div>
+    <div class="col-md-4" ></div>
+</div>
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-4" ></div>
+    <div class="col-md-4 restInfo" >@user(0).gender , @user(0).age</div>
+    <div class="col-md-4" ></div>
+</div>
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-4" ></div>
+    <div class="col-md-4 restInfo" >@user(0).hobby</div>
+    <div class="col-md-4" ></div>
+</div>
+
+    @if(user(0).isAdmin){
+
+        <div class="col-md-12 footer bot" >
+
+        <a href="@routes.AdminPanelController.showMaintanancePanel()"><i class="fa fa-cog" aria-hidden="true"></i><span style="margin-left:10px;font-size:16px;color: #a8a8a8;text-decoration:none;">Manage Accounts</span></a>
+
+        </div>
+
+}
+
+}else{
+
+@landing(flash)
+
+}
+</body>
+
+</html>
+
+
+
+}
+
+
+
+
+
+
+
+
+		  

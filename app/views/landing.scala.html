@@ -1,0 +1,125 @@
+                        @(implicit flash: Flash)
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+
+
+  </head>
+
+  <body>
+
+     <div class="container-fluid">
+
+
+              <!-- Trigger the modal with a button
+              <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+              -->
+
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content" style="border-radius:10px!important;">
+                    <div class="modal-header">
+                       <i class="fa fa-users"></i>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row main" style="text-align:center;">
+                                <form class="RegForm" action="@routes.SignupController.processForm()" method="post">
+                                <img src="@routes.Assets.versioned("images/img.png")" alt="Avatar" class="avatarreg .img-circle">
+                                <div class="uploadBtn">
+                                Upload dp?
+                                <input type="file"/>
+                                </div>
+                                <input type="text" placeholder="Firstname" name="fname" required>
+                                <input type="text" placeholder="Middlename" name="mname" >
+                                <input type="text" placeholder="Lastname" name="lname" required>
+                                <input type="text" placeholder="Select Username" name="uname" required>
+            <br/><span style="color:#F1948A;font-size:15px;font-weight:bold;">@flash.get("alreadyExist").getOrElse("")</span><br/>
+                                <input type="password" placeholder="Enter Password" name="psw" required>
+                                <input type="password" placeholder="Re-Enter Password" name="repsw" required>
+                                <input type="number" placeholder="Enter Mobile Number" name="mobile" required><br/>
+                                <span style="color:#F1948A;font-size:15px;font-weight:bold;">@flash.get("mobile").getOrElse("")</span><br/>
+                                <select class="gender" name="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                                </select>
+
+                                <input class="age" type="number" placeholder="Age" min="18" max="75" name="age" style=" width:39%;margin-left:5px;text-align:center;" required>
+
+                                    <input type="text" placeholder="Mention Hobbies" name="hobby" required>
+             <br/><span style="color:#F1948A;font-size:15px;font-weight:bold;">@flash.get("passMismatch").getOrElse("")</span>
+            <span style="color:#F1948A;font-size:15px;font-weight:bold;">@flash.get("masterMsg").getOrElse("")</span><br/>
+
+
+
+                                    <input type="hidden" name="accountType"
+                                       @if(play.Play.application().configuration().getString("accountType")=="admin"){
+                                    value=true
+                                    }
+                                    else{
+                                    value=false
+                                    }>
+                                    <input type="hidden" name="isBlocked"
+                                           @if(play.Play.application().configuration().getString("defaultAccess")=="allowed"){
+                                    value=false
+                                    }
+                                    else{
+                                    value=true
+                                    }>
+
+
+
+                                <button type="submit" class="login">Register</button>
+                                </form>
+                        </div>
+
+
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+     <!-- #############################################-->
+
+          <div class="row">
+              <div class="col-md-8 left" >
+              <img src="@routes.Assets.versioned("images/play.png")" class="img-responsive" alt="playAvatar" >
+              </div>
+              <div class="col-md-4 right">
+                    <form class="loginForm" action="@routes.LoginController.processForm" method="post">
+                    <div class="imgcontainer">
+                    <img src="@routes.Assets.versioned("images/img.png")" alt="Avatar" class="avatar img-circle">
+                    </div>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <input type="password" placeholder="Enter Password" name="psw" required><br/>
+                    <span style="color:#F1948A;font-size:15px;font-weight:bold;">@flash.get("msg").getOrElse("")</span>
+                    <span style="color:#F1948A;font-size:15px;font-weight:bold;">@flash.get("denied").getOrElse("")</span>
+                    <button type="submit" class="login">Login</button><br/><br/>
+                        <a class="regClick" data-toggle="modal" data-target="#myModal">Get me an Account!</a>
+                    </form>
+
+              </div>
+          </div>
+
+     </div>
+
+
+  </body>
+
+</html>
+
+
+
+
+
+
+
