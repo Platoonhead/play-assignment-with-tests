@@ -10,9 +10,9 @@ libraryDependencies ++= Seq(
   jdbc,
   cache,
   ws,
-  "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test
+  "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test,
+  "org.mockito" % "mockito-core" % "1.8.5"
 )
 
-val appDependencies = Seq(
-  "org.mindrot" % "jbcrypt" % "0.3m"
-)
+
+

@@ -7,10 +7,10 @@ import services.BackendService.listOfAccounts
 class GetAccounts extends Controller {
 
 
-   def getUsers = Action{
+  def getUsers = Action {
 
-     Ok(Json.toJson(listOfAccounts))
+    Ok(Json.toJson(listOfAccounts))
 
-   }
+  }
 
 }

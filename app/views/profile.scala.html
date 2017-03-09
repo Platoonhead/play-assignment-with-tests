@@ -3,17 +3,6 @@
 
 @main("Play App") {
 
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-
-</head>
-
-<body>
-
 @if(request.session.get("currentUser").getOrElse("").length() > 0){
 
 <nav class="navbar navbar-default">
@@ -83,11 +72,6 @@
 @landing(flash)
 
 }
-</body>
-
-</html>
-
-
 
 }
 

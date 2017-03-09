@@ -3,28 +3,27 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
+GET       /                                controllers.HomeController.index
 # An example controller showing how to use dependency injection
-GET     /count                      controllers.CountController.count
+GET      /count                           controllers.CountController.count
 # An example controller showing how to write asynchronous code
-GET     /message                    controllers.AsyncController.message
+GET      /message                         controllers.AsyncController.message
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET      /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)
 
-GET     /accounts                        controllers.GetAccounts.getUsers
+GET      /accounts                         controllers.GetAccounts.getUsers
 
-POST     /addPeople                      controllers.SignupController.processForm
+POST     /addPeople                       controllers.SignupController.processForm
 
-POST     /login                          controllers.LoginController.processForm
+POST     /login                           controllers.LoginController.processForm
 
-GET     /profilepage                    controllers.LoginController.showProfile(username:String)
+GET      /profilepage                      controllers.LoginController.showProfile(username:String)
 
-GET     /logout                          controllers.LoginController.logout
+GET      /logout                           controllers.LoginController.logout
 
-GET     /logout                          controllers.LoginController.logout
 
-GET      /profile                       controllers.AdminPanelController.showPanel
+GET      /profile                         controllers.AdminPanelController.showPanel
 
 GET      /profilevisit                    controllers.AdminPanelController.showMaintanancePanel
 

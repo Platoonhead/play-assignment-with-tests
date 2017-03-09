@@ -2,20 +2,18 @@ package controllers
 
 import javax.inject._
 
-import models.{Accounts, LoginData, Operations}
-import play.api.Logger
-import play.api.cache.CacheApi
+import models.{Accounts, Operations}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
-import services.MD5
+import services.{AppCacheProvider, MD5}
 
 @Singleton
-class SignupController @Inject() (cache: CacheApi) extends Controller {
+class SignupController @Inject()(cache: AppCacheProvider) extends Controller {
 
- val RegForm:Form[Accounts] = Form{
+  val RegForm: Form[Accounts] = Form {
 
-   mapping(
+    mapping(
       "fname" -> nonEmptyText,
       "mname" -> text,
       "lname" -> nonEmptyText,
@@ -23,45 +21,45 @@ class SignupController @Inject() (cache: CacheApi) extends Controller {
       "psw" -> nonEmptyText,
       "repsw" -> nonEmptyText,
       "mobile" -> nonEmptyText,
-      "gender" ->nonEmptyText,
+      "gender" -> nonEmptyText,
       "age" -> number(min = 18, max = 75),
       "hobby" -> nonEmptyText,
-      "accountType" ->boolean,
-      "isBlocked"-> boolean
-   )(Accounts.apply)(Accounts.unapply)
+      "accountType" -> boolean,
+      "isBlocked" -> boolean
+    )(Accounts.apply)(Accounts.unapply)
 
- }
+  }
 
-  def processForm = Action{ implicit request =>
+  def processForm = Action { implicit request =>
     RegForm.bindFromRequest.fold(
       formErrors => {
-        Redirect(routes.HomeController.index()).flashing("masterMsg"->"something Went Wrong,Try Later")
+        Redirect(routes.HomeController.index()).flashing("masterMsg" -> "something Went Wrong,Try Later")
       },
       LoginData => {
 
-        val CacheUser = cache.get[models.Accounts](LoginData.uname)
-        if(CacheUser==None){
-          if(LoginData.pswd==LoginData.repswd){
-            if(LoginData.mobile.length==10){
-              val encryptedUser = LoginData.copy(pswd = MD5.hash(LoginData.pswd) )
-              cache.set(LoginData.uname,encryptedUser)
+        val CacheUser = cache.retrieve(LoginData.uname)
+        if (CacheUser == None) {
+          if (LoginData.pswd == LoginData.repswd) {
+            if (LoginData.mobile.length == 10) {
+              val encryptedUser = LoginData.copy(pswd = MD5.hash(LoginData.pswd))
+              cache.insert(LoginData.uname, encryptedUser)
               Operations.addUser(LoginData.uname)
-              Redirect(routes.LoginController.showProfile(LoginData.uname)).withSession("currentUser"->LoginData.uname).flashing("msg"->"Registration Successful")
+              Redirect(routes.LoginController.showProfile(LoginData.uname)).withSession("currentUser" -> LoginData.uname).flashing("msg" -> "Registration Successful")
             }
-            else{
-              Redirect(routes.HomeController.index()).flashing("mobile"->"Invalid Mobile Number")
+            else {
+              Redirect(routes.HomeController.index()).flashing("mobile" -> "Invalid Mobile Number")
             }
 
           }
-          else{
+          else {
 
-            Redirect(routes.HomeController.index()).flashing("passMismatch"->"Pasword dosent Match")
+            Redirect(routes.HomeController.index()).flashing("passMismatch" -> "Pasword dosent Match")
           }
 
         }
-        else{
+        else {
 
-          Redirect(routes.HomeController.index()).flashing("alreadyExist"->"Username Already Taken")
+          Redirect(routes.HomeController.index()).flashing("alreadyExist" -> "Username Already Taken")
         }
 
       }
